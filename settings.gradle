@@ -1,0 +1,29 @@
+pluginManagement {
+    ext.google_services_version = "4.3.13"
+
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+           if (requested.id.id == 'com.google.gms.google-services'){
+                useModule("com.google.gms:google-services:$google_services_version")
+            }
+        }
+    }
+
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+rootProject.name = "Location Reminder"
+include ':app'

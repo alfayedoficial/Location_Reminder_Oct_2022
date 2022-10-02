@@ -1,0 +1,59 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.LocationReminder" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation duration. -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+
+        <!-- Use windowSplashScreenAnimatedIcon to add either a drawable or an
+             animated drawable. One of these is required. -->
+        <!-- Required for animated icons -->
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/teal_200</item>
+        <!-- Set the theme of the Activity that directly follows your splash screen. -->
+        <!-- Required -->
+        <item name="postSplashScreenTheme">@style/Theme.LocationReminder</item>
+    </style>
+
+
+    <style name="GreenTheme" parent="FirebaseUI">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
+        <item name="android:colorBackground">@color/white</item>
+
+        <!-- On API 21+ you can use android:statusBarColor -->
+        <item name="colorPrimaryDark">@color/purple_700</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/_2sdp</item>
+        <item name="android:textColorHint">@color/purple_500</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_7sdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_7sdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_7sdp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_7sdp</item>
+        <item name="boxStrokeColor">@color/gray</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="hintAnimationEnabled">true</item>
+        <item name="android:elevation">@dimen/_3sdp</item>
+        <item name="android:layout_marginHorizontal" tools:targetApi="o">@dimen/_5sdp</item>
+        <item name="android:layout_marginVertical" tools:targetApi="o">@dimen/_2sdp</item>
+    </style>
+</resources>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.alialfayed.locationreminder.ui.home.features.saveRemind.view.SaveRemindFragment" />
+
+
+        <variable
+            name="viewModel"
+            type="com.alialfayed.locationreminder.ui.home.features.saveRemind.viewModel.SaveRemindViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_10sdp"
+        tools:context=".ui.home.features.saveRemind.view.SaveRemindFragment">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:contentDescription="@string/app_name"
+                    app:srcCompat="@drawable/ic_logo" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/remindTitleContainer"
+                    style="@style/TextInputLayout"
+                    android:hint="@string/write_title">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/remindTitleEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autofillHints="none"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:text="@={viewModel.title}"
+                        android:singleLine="true"
+                        android:maxLength="70"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/purple_500"
+                        android:textSize="16sp"
+                        tools:ignore="SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/remindDescriptionContainer"
+                    style="@style/TextInputLayout"
+                    android:hint="@string/write_description">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/remindDescriptionEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:imeOptions="actionNext"
+                        android:inputType="textMultiLine"
+                        android:lines="6"
+                        android:maxLength="1000"
+                        android:text="@={viewModel.description}"
+                        android:overScrollMode="always"
+                        android:scrollbarSize="@dimen/_2sdp"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="true"
+                        android:textAlignment="viewStart"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    app:cardCornerRadius="@dimen/_7sdp"
+                    android:onClick="@{() -> fragment.onPickLocationClick()}"
+                    app:strokeColor="@color/gray"
+                    app:strokeWidth="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_37sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_10sdp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_weight="1"
+                            android:clickable="false"
+                            android:drawablePadding="@dimen/_5sdp"
+                            android:focusable="false"
+                            android:text="@string/pick_remind_location"
+                            android:textColor="@color/purple_500"
+                            app:drawableStartCompat="@drawable/ic_baseline_location_on_24" />
+
+                        <TextView
+                            android:id="@+id/tvRemindAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:singleLine="true"
+                            android:textColor="@color/purple_500"
+                            android:visibility="gone"
+                            app:address="@{viewModel.address}"
+                            tools:text="Selected Address"
+                            tools:visibility="visible" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_9sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:backgroundTint="@color/gray"
+                    android:insetTop="0sp"
+                    app:saveEnable="@{viewModel.saveRemindState}"
+                    android:insetBottom="0dp"
+                    android:onClick="@{() -> fragment.onSaveRemindClick()}"
+                    android:enabled="false"
+                    android:text="@string/save_remind"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <include
+            android:id="@+id/lyContainerIsLoading"
+            layout="@layout/ly_container_is_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

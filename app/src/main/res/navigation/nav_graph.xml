@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/DashboardRemindsFragment">
+
+    <fragment
+        android:id="@+id/DashboardRemindsFragment"
+        android:name="com.alialfayed.locationreminder.ui.home.features.dashboardReminds.view.DashboardRemindsFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_dashboard_reminds">
+        <action
+            android:id="@+id/action_DashboardRemindsFragment_to_saveRemindFragment"
+            app:destination="@id/saveRemindFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/PickAddress"
+        android:name="com.alialfayed.locationreminder.ui.home.features.pickAddress.view.PickAddressFragment"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/fragment_pick_address">
+
+    </fragment>
+    <fragment
+        android:id="@+id/saveRemindFragment"
+        tools:layout="@layout/fragment_save_remind"
+        android:name="com.alialfayed.locationreminder.ui.home.features.saveRemind.view.SaveRemindFragment"
+        android:label="Add new remind" >
+        <action
+            android:id="@+id/action_saveRemindFragment_to_PickAddress"
+            app:destination="@id/PickAddress" />
+    </fragment>
+</navigation>
