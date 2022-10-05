@@ -4,10 +4,9 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alfayedoficial.kotlinutils.kuInfoLog
 import com.alialfayed.locationreminder.data.dto.ReminderDTO
 import com.alialfayed.locationreminder.domain.entity.ReminderEntity
-import com.alialfayed.locationreminder.domain.usecase.ReminderDataSource
+import com.alialfayed.locationreminder.domain.dataSource.ReminderDataSource
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 

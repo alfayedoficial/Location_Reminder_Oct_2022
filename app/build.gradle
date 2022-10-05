@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'androidx.navigation.safeargs.kotlin'
 
 }
 
@@ -88,6 +89,7 @@ android {
         dataBinding = true
     }
 
+
     defaultConfig {
         // ...
         resConfigs "en"
@@ -144,6 +146,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     kapt Libs.permissionsDispatcherProcessor
 
     /*-----------Room Dependencies---------*/

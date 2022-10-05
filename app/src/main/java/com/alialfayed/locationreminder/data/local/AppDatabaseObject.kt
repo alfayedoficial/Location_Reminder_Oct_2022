@@ -4,18 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.alialfayed.locationreminder.data.dto.ReminderDTO
+import com.alialfayed.locationreminder.data.local.typeConverters.DateTypeConverter
 
 
-fun createRoomDatabase(context: Context): RoomDatabase {
-    return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "locationReminders.db")
-        .fallbackToDestructiveMigration()
-        .allowMainThreadQueries()
-        .setJournalMode(RoomDatabase.JournalMode.AUTOMATIC)
-        .build()
-}
 
-@Database(entities = [ReminderDTO::class], version = 1, exportSchema = false)
+@Database(entities = [ReminderDTO::class], version = 2, exportSchema = false )
+@TypeConverters(DateTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun reminderLocationDao(): ReminderLocationDao
 }

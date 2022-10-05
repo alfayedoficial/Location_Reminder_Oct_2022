@@ -6,7 +6,7 @@ import androidx.core.app.JobIntentService
 import com.alialfayed.locationreminder.data.dto.ReminderDTO
 import com.alialfayed.locationreminder.data.dto.ResultDatabase
 import com.alialfayed.locationreminder.domain.entity.ReminderEntity
-import com.alialfayed.locationreminder.domain.usecase.ReminderDataSource
+import com.alialfayed.locationreminder.domain.dataSource.ReminderDataSource
 import com.alialfayed.locationreminder.utils.AppConstant.Geofence_JOB_ID
 import com.alialfayed.locationreminder.utils.sendNotificationUtils
 import com.google.android.gms.location.Geofence

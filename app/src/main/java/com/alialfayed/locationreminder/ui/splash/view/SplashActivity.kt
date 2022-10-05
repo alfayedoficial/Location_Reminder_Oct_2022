@@ -7,8 +7,9 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.alialfayed.locationreminder.R
 import com.alialfayed.locationreminder.core.common.app.BaseApp.Companion.appPreferences
 import com.alialfayed.locationreminder.ui.auth.view.AuthActivity
-import com.alialfayed.locationreminder.ui.home.view.OneSingleActivity
 import com.alialfayed.locationreminder.utils.AppConstant.USER
+import com.alialfayed.locationreminder.locationreminders.RemindersActivity
+import com.alialfayed.locationreminder.ui.home.view.OneSingleActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

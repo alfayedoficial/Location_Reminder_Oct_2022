@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.alfayedoficial.kotlinutils.kuHide
@@ -63,7 +64,7 @@ class SaveRemindFragment : Fragment() {
     private val geofencePendingIntent: PendingIntent by lazy {
         val intent = Intent(activity, GeofenceBroadcastReceiver::class.java)
         intent.action = ACTION_GEOFENCE_EVENT
-        PendingIntent.getBroadcast(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        PendingIntent.getBroadcast(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     }
 
 
@@ -107,7 +108,7 @@ class SaveRemindFragment : Fragment() {
                 binding.lyContainerIsLoading.root.kuShow()
             } else if (it == false) {
                 binding.lyContainerIsLoading.root.kuHide()
-//                findNavController().popBackStack()
+                findNavController().popBackStack()
             }
         }
     }
@@ -174,7 +175,6 @@ class SaveRemindFragment : Fragment() {
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun createGeoFence() {
         val geofence = Geofence.Builder()
             .setRequestId(mViewModel.reminderEntity.value?.id.toString())
@@ -191,6 +191,9 @@ class SaveRemindFragment : Fragment() {
             .addGeofence(geofence)
             .build()
 
+        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) || !checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)){
+            return
+        }
         geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent).apply {
             addOnSuccessListener {
                 mViewModel.saveReminderToDatabase()

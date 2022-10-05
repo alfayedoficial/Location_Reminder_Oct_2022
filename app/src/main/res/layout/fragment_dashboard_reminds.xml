@@ -30,6 +30,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <TextView
+                android:id="@+id/tvNoRemindersIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Data..."
+                android:drawableTop="@drawable/ic_no_data"
+                android:drawablePadding="@dimen/_7sdp"
+                android:textColor="@color/purple_500"
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/remindersRv" />
+
             <include
                 android:id="@+id/lyContainerIsLoading"
                 layout="@layout/ly_container_is_loading"

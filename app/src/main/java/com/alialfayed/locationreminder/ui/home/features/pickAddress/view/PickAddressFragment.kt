@@ -1,8 +1,10 @@
 package com.alialfayed.locationreminder.ui.home.features.pickAddress.view
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -42,6 +45,7 @@ class PickAddressFragment : Fragment() {
     private val binding get() = _binding!!
     private var userLocation: LatLng? = null
     private lateinit var mGoogleMap: GoogleMap
+    private lateinit var pointOfInterest: PointOfInterest
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -61,6 +65,7 @@ class PickAddressFragment : Fragment() {
         LocationServices.getFusedLocationProviderClient(requireActivity())
     }
 
+    @SuppressLint("MissingPermission")
     private val callback = OnMapReadyCallback { googleMap ->
         mGoogleMap = googleMap
 
@@ -72,11 +77,31 @@ class PickAddressFragment : Fragment() {
 
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(egyptBounds , 20))
 
+        googleMap.isMyLocationEnabled = true
 
         moveCameraToLocation()
 
+
+        try {
+            // Customize the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = mGoogleMap.setMapStyle(context?.let { MapStyleOptions.loadRawResourceStyle(it, R.raw.map_style) })
+            if (!success) {
+                Toast.makeText(context,"Style parsing failed.", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Resources.NotFoundException) {
+            Toast.makeText(context, "error $e", Toast.LENGTH_LONG).show()
+        }
+
+        googleMap.setOnPoiClickListener {
+            pointOfInterest = it
+            userLocation = it.latLng
+            addMarkOnMap()
+        }
+
         googleMap.setOnMapClickListener {
             userLocation = it
+            pointOfInterest = PointOfInterest(userLocation!!, "", getString(R.string.dropped_pin))
             addMarkOnMap()
         }
     }
@@ -96,7 +121,7 @@ class PickAddressFragment : Fragment() {
                     val location = LatLng(locationResult.lastLocation!!.latitude,locationResult.lastLocation!!.longitude)
                     userLocation = location
                     fusedLocationProviderClient.removeLocationUpdates(this)
-
+                    pointOfInterest = PointOfInterest(location, "", getString(R.string.dropped_pin))
                     addMarkOnMap()
 
                 }
@@ -113,6 +138,7 @@ class PickAddressFragment : Fragment() {
         mGoogleMap.clear() // to remove all marker
         val marker = MarkerOptions()
             .position(userLocation!!)
+            .title(pointOfInterest.name)
             .icon(getBitmapFromVector(requireContext(),R.drawable.ic_marker_user))
 
         mGoogleMap.addMarker(marker)

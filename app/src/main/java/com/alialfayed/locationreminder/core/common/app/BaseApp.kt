@@ -1,24 +1,26 @@
 package com.alialfayed.locationreminder.core.common.app
 
+import android.app.Application
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
+import androidx.room.Room
 import com.alfayedoficial.kotlinutils.KUPreferences
-import com.alialfayed.locationreminder.data.local.createRoomDatabase
-import com.alialfayed.locationreminder.domain.usecase.ReminderDataSource
-import com.alialfayed.locationreminder.domain.usecase.RemindersLocalRepository
+import com.alialfayed.locationreminder.data.local.AppDatabase
+import com.alialfayed.locationreminder.domain.dataSource.ReminderDataSource
+import com.alialfayed.locationreminder.domain.dataSource.RemindersLocalRepository
 import com.alialfayed.locationreminder.ui.home.features.saveRemind.viewModel.SaveRemindViewModel
-import com.alialfayed.locationreminder.ui.home.viewModel.OneSingleViewModel
+import com.alialfayed.locationreminder.ui.home.viewModel.DashboardRemindsViewModel
 import com.alialfayed.locationreminder.utils.AppPreferences.initAppPreferences
 import com.google.firebase.FirebaseApp
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.component.KoinComponent
 import org.koin.core.context.GlobalContext.startKoin
-import org.koin.core.module.dsl.bind
-import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.Module
 import org.koin.dsl.module
 
-class BaseApp : MultiDexApplication() {
-
+class BaseApp : MultiDexApplication()  , KoinComponent{
 
     companion object{
 
@@ -27,40 +29,41 @@ class BaseApp : MultiDexApplication() {
             get() = _appPreferences!!
             set(value) { _appPreferences = value }
     }
+
     override fun onCreate() {
         super.onCreate()
         MultiDex.install(this)
         FirebaseApp.initializeApp(this)
-
         _appPreferences = initAppPreferences(this.applicationContext)
 
-        /**
-         * use Koin Library as a service locator
-         */
-        val myModule = module {
-            //Declare a ViewModel - be later inject into Fragment with dedicated injector using by viewModel()
-            viewModel {
-                OneSingleViewModel()
-            }
 
-//            //Declare singleton definitions to be later injected using by inject()
-            single {
-                //This view model is declared singleton to be used across multiple fragments
-                SaveRemindViewModel(get())
-            }
-
-            single { createRoomDatabase(this@BaseApp) }
-            single { RemindersLocalRepository(get()) }
-            singleOf(::RemindersLocalRepository){ bind<ReminderDataSource>() }
-
-
+        val viewModelModule = module {
+            viewModel { SaveRemindViewModel(dataSourceReminder = get() ) }
         }
 
-        startKoin {
+        val viewModelModule2 = module {
+            viewModel { DashboardRemindsViewModel(dataSourceReminder = get() ) }
+        }
+
+        val repositoryModel: Module = module {
+            single<ReminderDataSource> { RemindersLocalRepository(appDatabase = get()) }
+        }
+
+        val databaseModel: Module = module {
+            fun getDatabaseInstance(application: Application): AppDatabase {
+                return Room.databaseBuilder(application, AppDatabase::class.java, "user_database"
+                ).fallbackToDestructiveMigration().build()
+            }
+            single { getDatabaseInstance(androidApplication()) }
+        }
+
+        startKoin{
             androidContext(this@BaseApp)
-            modules(listOf(myModule))
+            modules(listOf(repositoryModel , databaseModel , viewModelModule , viewModelModule2))
         }
+
     }
 
 }
+
 
