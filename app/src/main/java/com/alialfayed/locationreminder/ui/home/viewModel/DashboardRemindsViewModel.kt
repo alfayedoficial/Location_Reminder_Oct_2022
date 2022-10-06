@@ -21,6 +21,11 @@ class DashboardRemindsViewModel(private val dataSourceReminder: ReminderDataSour
     private val _errorMutableLiveData = MutableLiveData<String>()
     val errorLiveData: LiveData<String> = _errorMutableLiveData
 
+    private val _showLoadingMutableLiveData = MutableLiveData<Boolean>()
+    val showLoadingLiveData: LiveData<Boolean> = _showLoadingMutableLiveData
+
+    var status = false
+
     private val _logoutState = MutableLiveData<Boolean?>()
     val logoutState: LiveData<Boolean?> = _logoutState
 
@@ -37,16 +42,20 @@ class DashboardRemindsViewModel(private val dataSourceReminder: ReminderDataSour
     }
 
     fun getReminders(){
-        viewModelScope.launch{
-            val result = dataSourceReminder.getItems()
+        _showLoadingMutableLiveData.postValue(true)
 
+        viewModelScope.launch{
+
+            val result = dataSourceReminder.getItems()
             when(result){
                 is ResultDatabase.Success -> {
                     _reminders.value = result.data.orEmpty()
+                    _showLoadingMutableLiveData.postValue(false)
                 }
                 is ResultDatabase.Error ->{
                     _reminders.value = arrayListOf()
                     _errorMutableLiveData.value = result.message.orEmpty()
+                    _showLoadingMutableLiveData.postValue(false)
                 }
             }
         }

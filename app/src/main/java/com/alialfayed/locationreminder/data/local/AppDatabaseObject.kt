@@ -10,7 +10,7 @@ import com.alialfayed.locationreminder.data.local.typeConverters.DateTypeConvert
 
 
 
-@Database(entities = [ReminderDTO::class], version = 2, exportSchema = false )
+@Database(entities = [ReminderDTO::class], version = 3, exportSchema = false )
 @TypeConverters(DateTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun reminderLocationDao(): ReminderLocationDao

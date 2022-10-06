@@ -60,6 +60,7 @@ class DashboardRemindsFragment : Fragment() {
             }
         }
 
+        mViewModel.showLoadingLiveData.observe(viewLifecycleOwner){isLoading(it)}
         mViewModel.reminders.observe(viewLifecycleOwner){ initRemindersList(it) }
         mViewModel.errorLiveData.observe(viewLifecycleOwner){ showError(it) }
 

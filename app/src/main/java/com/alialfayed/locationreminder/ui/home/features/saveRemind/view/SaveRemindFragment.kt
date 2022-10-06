@@ -20,10 +20,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import com.alfayedoficial.kotlinutils.kuHide
-import com.alfayedoficial.kotlinutils.kuShow
-import com.alfayedoficial.kotlinutils.kuSnackBar
-import com.alfayedoficial.kotlinutils.kuToast
+import com.alfayedoficial.kotlinutils.*
 import com.alialfayed.locationreminder.R
 import com.alialfayed.locationreminder.core.geofence.GeofenceBroadcastReceiver
 import com.alialfayed.locationreminder.databinding.FragmentSaveRemindBinding
@@ -97,19 +94,19 @@ class SaveRemindFragment : Fragment() {
     }
 
     private fun setUpViewModelStateObservers() {
-        mViewModel.saveRemindState.observe(viewLifecycleOwner){
-            if (it == true){
-                mViewModel.saveReminderEntity()
-            }
-        }
 
         mViewModel.loadingState.observe(viewLifecycleOwner){
             if (it == true) {
                 binding.lyContainerIsLoading.root.kuShow()
             } else if (it == false) {
                 binding.lyContainerIsLoading.root.kuHide()
+                kuToast("Reminder Saved Successfully")
                 findNavController().popBackStack()
             }
+        }
+
+        mViewModel.errorState.observe(viewLifecycleOwner){
+            kuSnackBarError(getString(it) , kuRes.getColor(R.color.white, kuRes.newTheme()) , kuRes.getColor(R.color.TemplateRed, kuRes.newTheme()))
         }
     }
 
@@ -153,6 +150,13 @@ class SaveRemindFragment : Fragment() {
 
 
     fun onSaveRemindClick(){
+
+        if(mViewModel.validateEnteredData()){
+            mViewModel.saveReminderEntity()
+        }else{
+            return
+        }
+
         if (checkLocationPermissions()){
             val locationRequest = LocationRequest.create().apply {
                 priority = LocationRequest.PRIORITY_LOW_POWER

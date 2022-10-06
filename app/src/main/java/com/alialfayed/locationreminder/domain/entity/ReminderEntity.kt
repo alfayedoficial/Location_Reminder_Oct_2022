@@ -10,5 +10,5 @@ data class ReminderEntity(
     var description: String?= null,
     var address: String?= null,
     var location: LatLng?= null,
-    val id: String = UUID.randomUUID().toString()
+    var id: String = UUID.randomUUID().toString()
 ): Serializable

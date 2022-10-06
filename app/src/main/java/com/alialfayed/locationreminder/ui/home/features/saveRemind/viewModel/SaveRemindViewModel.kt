@@ -4,6 +4,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alialfayed.locationreminder.R
 import com.alialfayed.locationreminder.data.dto.ReminderDTO
 import com.alialfayed.locationreminder.domain.entity.ReminderEntity
 import com.alialfayed.locationreminder.domain.dataSource.ReminderDataSource
@@ -15,6 +16,9 @@ class SaveRemindViewModel(private val dataSourceReminder: ReminderDataSource): V
     private val _loadingState = MutableLiveData<Boolean>()
     val loadingState = _loadingState
 
+    private val _errorState = MutableLiveData<Int>()
+    val errorState = _errorState
+
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val address = MutableLiveData<String>()
@@ -22,21 +26,6 @@ class SaveRemindViewModel(private val dataSourceReminder: ReminderDataSource): V
 
 
     val reminderEntity = MutableLiveData<ReminderEntity?>()
-
-    val saveRemindState = MediatorLiveData<Boolean>().apply {
-        addSource(title) {
-            value = !(title.value == null || title.value!!.isEmpty() ||title.value!!.length < 3 || description.value == null || description.value!!.length < 3 || description.value!!.isEmpty() || address.value == null || address.value!!.isEmpty() || location.value == null)
-         }
-        addSource(description) {
-            value = !(title.value == null || title.value!!.isEmpty() || title.value!!.length < 3 || description.value == null || description.value!!.length < 3 ||  description.value!!.isEmpty() || address.value == null || address.value!!.isEmpty() || location.value == null)
-        }
-        addSource(address) {
-            value = !(title.value == null || title.value!!.isEmpty() || title.value!!.length < 3 || description.value == null || description.value!!.length < 3 ||  description.value!!.isEmpty() || address.value == null || address.value!!.isEmpty() || location.value == null)
-        }
-        addSource(location) {
-            value = !(title.value == null || title.value!!.isEmpty() || title.value!!.length < 3 || description.value == null || description.value!!.length < 3 || description.value!!.isEmpty() || address.value == null || address.value!!.isEmpty() || location.value == null)
-        }
-    }
 
 
     fun saveReminderEntity() {
@@ -51,9 +40,9 @@ class SaveRemindViewModel(private val dataSourceReminder: ReminderDataSource): V
     }
 
     fun saveReminderToDatabase() {
+        _loadingState.postValue(true)
         viewModelScope.launch {
             reminderEntity.value?.let {
-                _loadingState.postValue(true)
                 dataSourceReminder.insertITem(ReminderDTO(
                     title = it.title,
                     description = it.description,
@@ -61,8 +50,8 @@ class SaveRemindViewModel(private val dataSourceReminder: ReminderDataSource): V
                     latitude = it.location!!.latitude,
                     longitude = it.location!!.longitude))
 
-                _loadingState.postValue(false)
             }
+            _loadingState.postValue(false)
         }
     }
 
@@ -72,5 +61,21 @@ class SaveRemindViewModel(private val dataSourceReminder: ReminderDataSource): V
         address.value = ""
         location.value = null
         reminderEntity.value = null
+    }
+
+    /**
+     * Validate the entered data and show error to the user if there's any invalid data
+     */
+    fun validateEnteredData(): Boolean {
+        if (title.value.isNullOrEmpty()) {
+            _errorState.value = R.string.err_enter_title
+            return false
+        }
+
+        if (description.value.isNullOrEmpty()) {
+            _errorState.value = R.string.err_select_location
+            return false
+        }
+        return true
     }
 }

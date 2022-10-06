@@ -20,15 +20,16 @@ import java.util.*
 
 @Entity(tableName = "reminders_table")
 data class ReminderDTO(
-    @ColumnInfo(name = "title") var title: String?,
-    @ColumnInfo(name = "description") var description: String?,
-    @ColumnInfo(name = "address") var address: String?,
-    @ColumnInfo(name = "latitude") var latitude: Double?,
-    @ColumnInfo(name = "longitude") var longitude: Double?,
+    @ColumnInfo(name = "title") var title: String? = null,
+    @ColumnInfo(name = "description") var description: String? = null,
+    @ColumnInfo(name = "address") var address: String? = null,
+    @ColumnInfo(name = "latitude") var latitude: Double?    = null,
+    @ColumnInfo(name = "longitude") var longitude: Double? = null,
     @TypeConverters(DateTypeConverter::class)
     @ColumnInfo(name = "date") var date: Date = Date(),
-    @PrimaryKey @ColumnInfo(name = "entry_id") val id: String = UUID.randomUUID().toString()
+    @PrimaryKey @ColumnInfo(name = "entry_id") var id: String = UUID.randomUUID().toString()
 )
 
 
 typealias Reminders = List<ReminderDTO>
+typealias RemindersMutableList = MutableList<ReminderDTO>
