@@ -8,7 +8,7 @@ import com.alfayedoficial.kotlinutils.KUPreferences
 import com.alialfayed.locationreminder.data.local.AppDatabase
 import com.alialfayed.locationreminder.domain.dataSource.ReminderDataSource
 import com.alialfayed.locationreminder.domain.dataSource.RemindersLocalRepository
-import com.alialfayed.locationreminder.ui.home.features.saveRemind.viewModel.SaveRemindViewModel
+import com.alialfayed.locationreminder.ui.home.features.saveRemind.viewModel.SaveReminderViewModel
 import com.alialfayed.locationreminder.ui.home.viewModel.DashboardRemindsViewModel
 import com.alialfayed.locationreminder.utils.AppPreferences.initAppPreferences
 import com.google.firebase.FirebaseApp
@@ -38,7 +38,7 @@ class BaseApp : MultiDexApplication()  , KoinComponent{
 
 
         val viewModelModule = module {
-            viewModel { SaveRemindViewModel(dataSourceReminder = get() ) }
+            viewModel { SaveReminderViewModel(dataSourceReminder = get() ) }
         }
 
         val viewModelModule2 = module {

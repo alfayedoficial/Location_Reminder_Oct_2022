@@ -15,22 +15,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.alfayedoficial.kotlinutils.*
 import com.alialfayed.locationreminder.R
 import com.alialfayed.locationreminder.core.geofence.GeofenceBroadcastReceiver
 import com.alialfayed.locationreminder.databinding.FragmentSaveRemindBinding
-import com.alialfayed.locationreminder.ui.home.features.saveRemind.viewModel.SaveRemindViewModel
+import com.alialfayed.locationreminder.ui.home.features.saveRemind.viewModel.SaveReminderViewModel
 import com.alialfayed.locationreminder.ui.home.view.OneSingleActivity
 import com.alialfayed.locationreminder.ui.home.view.setupLocationServiceWithPermissionCheck
 import com.alialfayed.locationreminder.utils.AppConstant.ACTION_GEOFENCE_EVENT
 import com.alialfayed.locationreminder.utils.AppConstant.GEOFENCE_RADIUS
 import com.alialfayed.locationreminder.utils.AppConstant.LOCATION_KEY
-import com.alialfayed.locationreminder.utils.LocationUtil.isLocationEnabled
 import com.alialfayed.locationreminder.utils.setDisplayHomeAsUpEnabled
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
@@ -48,7 +43,7 @@ class SaveRemindFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val mViewModel : SaveRemindViewModel by inject()
+    private val mViewModel : SaveReminderViewModel by inject()
 
     private val setupLocationServiceResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         setupLocationServiceWithPermissionCheck()
@@ -100,7 +95,7 @@ class SaveRemindFragment : Fragment() {
                 binding.lyContainerIsLoading.root.kuShow()
             } else if (it == false) {
                 binding.lyContainerIsLoading.root.kuHide()
-                kuToast("Reminder Saved Successfully")
+                kuToast(getString(R.string.reminder_saved))
                 findNavController().popBackStack()
             }
         }

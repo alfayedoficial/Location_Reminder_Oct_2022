@@ -66,8 +66,8 @@ fun DataBindingIdlingResource.monitorActivity(
     }
 }
 
-//fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<out Fragment>) {
-//    fragmentScenario.onFragment {
-//        this.activity = it.requireActivity()
-//    }
-//}
+fun DataBindingIdlingResource.monitorFragment(fragmentScenario: FragmentScenario<out Fragment>) {
+    fragmentScenario.onFragment {
+        this.activity = it.requireActivity()
+    }
+}

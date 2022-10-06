@@ -9,6 +9,8 @@ import com.alialfayed.locationreminder.data.dto.ReminderDTO
 import com.alialfayed.locationreminder.domain.entity.ReminderEntity
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +23,7 @@ import org.junit.runner.RunWith
 class RemindersDaoTest {
 
     @get:Rule
-    var instantExecutorRuleTest = InstantTaskExecutorRule()
+    var instantTaskExecutorRuleTest = InstantTaskExecutorRule()
 
     private var appDatabaseTest: AppDatabase? = null
 
@@ -43,7 +45,7 @@ class RemindersDaoTest {
     }
 
     @Test
-    fun insertItem_and_getItem() {
+    fun insertItem_and_getItem() = runBlockingTest {
         val reminder =  reminderDTOForTesting
 
         appDatabaseTest?.reminderLocationDao()?.insertItem(reminder)
@@ -58,6 +60,51 @@ class RemindersDaoTest {
         assert(reminderFromDB.longitude == reminder.longitude)
     }
 
+    @Test
+    fun insertItem_and_getItemById()= runBlockingTest {
 
+        val reminder =  reminderDTOForTesting
+
+        appDatabaseTest?.reminderLocationDao()?.insertItem(reminder)
+
+        val reminderFromDB = appDatabaseTest?.reminderLocationDao()?.getItemById(reminder.id)!!
+
+        assert(reminderFromDB.id == reminder.id)
+        assert(reminderFromDB.title == reminder.title)
+        assert(reminderFromDB.description == reminder.description)
+        assert(reminderFromDB.address == reminder.address)
+        assert(reminderFromDB.latitude == reminder.latitude)
+        assert(reminderFromDB.longitude == reminder.longitude)
+
+    }
+
+    @Test
+    fun insertItem_and_deleteItem() = runBlockingTest {
+        val reminder =  reminderDTOForTesting
+
+        appDatabaseTest?.reminderLocationDao()?.insertItem(reminder)
+
+        appDatabaseTest?.reminderLocationDao()?.clearTable()
+
+        val reminderFromDB = appDatabaseTest?.reminderLocationDao()?.getItems()
+
+        assert(reminderFromDB?.size == 0)
+    }
+
+    @Test
+    fun insetItem_and_getItemById_and_getError() = runBlockingTest {
+        val reminder =  reminderDTOForTesting
+
+        appDatabaseTest?.reminderLocationDao()?.insertItem(reminder)
+
+        val reminderFromDB = appDatabaseTest?.reminderLocationDao()?.getItemById("2")
+
+        assert(reminderFromDB == null)
+    }
+
+    @After
+    fun closeRemindersDatabase() {
+        appDatabaseTest!!.close()
+    }
 
 }
