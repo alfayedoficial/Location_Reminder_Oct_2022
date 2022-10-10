@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.alialfayed.locationreminder.data.dto.ReminderDTO" />
+            type="com.udacity.project4.data.dto.ReminderDTO" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

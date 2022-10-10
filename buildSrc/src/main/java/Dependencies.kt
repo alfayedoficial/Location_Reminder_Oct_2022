@@ -113,7 +113,7 @@ object Android {
     const val versionCode = Versions.VERSION_CODE
     const val versionName = Versions.VERSION_NAME
     const val compileSDK = Versions.COMPILE_SDK
-    const val applicationId = "com.alialfayed.locationreminder"
+    const val applicationId = "com.udacity.project4"
 }
 
 object Libs {

@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.alialfayed.locationreminder.domain.entity.ReminderEntity" />
+            type="com.udacity.project4.domain.entity.ReminderEntity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

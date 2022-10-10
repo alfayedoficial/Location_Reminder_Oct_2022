@@ -7,12 +7,12 @@
 
         <variable
             name="fragment"
-            type="com.alialfayed.locationreminder.ui.home.features.saveRemind.view.SaveRemindFragment" />
+            type="com.udacity.project4.ui.home.features.saveRemind.view.SaveRemindFragment" />
 
 
         <variable
             name="viewModel"
-            type="com.alialfayed.locationreminder.ui.home.features.saveRemind.viewModel.SaveReminderViewModel" />
+            type="com.udacity.project4.ui.home.features.saveRemind.viewModel.SaveReminderViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
