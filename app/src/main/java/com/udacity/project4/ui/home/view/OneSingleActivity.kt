@@ -13,6 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.alfayedoficial.kotlinutils.kuToast
+import com.udacity.project4.R
 import com.udacity.project4.databinding.ActivityOneSingleBinding
 import com.udacity.project4.utils.LocationUtil.isLocationEnabled
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

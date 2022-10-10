@@ -9,14 +9,15 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
 import android.os.Looper
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.alfayedoficial.kotlinutils.kuRes
 import com.alfayedoficial.kotlinutils.kuSnackBarError
@@ -177,6 +178,8 @@ class PickAddressFragment : Fragment() {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(callback)
+
+        setMenu()
     }
 
     override fun onDestroyView() {
@@ -196,6 +199,39 @@ class PickAddressFragment : Fragment() {
     private fun navigateBack(location: LatLng?) = with(findNavController()) {
         previousBackStackEntry?.savedStateHandle?.set(LOCATION_KEY, location)
         popBackStack()
+    }
+
+    private fun setMenu() {
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.map_options, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when(menuItem.itemId){
+                        R.id.normal_map -> {
+                            mGoogleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+                            return true
+                        }
+                        R.id.hybrid_map -> {
+                            mGoogleMap.mapType = GoogleMap.MAP_TYPE_HYBRID
+                            return true
+                        }
+                        R.id.satellite_map -> {
+                            mGoogleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+                            return true
+                        }
+                        R.id.terrain_map -> {
+                            mGoogleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+                            return true
+                        }
+                    else -> false
+                }
+            }
+
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
 }

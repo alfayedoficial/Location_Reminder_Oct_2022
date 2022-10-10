@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alfayedoficial.kotlinutils.*
 import com.udacity.project4.core.common.app.BaseApp
 import com.udacity.project4.data.dto.Reminders
+import com.udacity.project4.R
 import com.udacity.project4.databinding.FragmentDashboardRemindsBinding
 import com.udacity.project4.ui.auth.view.AuthActivity
 import com.udacity.project4.ui.home.features.dashboardReminds.adapter.RemindersRvAdapter
