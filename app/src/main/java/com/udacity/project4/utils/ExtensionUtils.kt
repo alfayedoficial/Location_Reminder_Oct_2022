@@ -11,8 +11,8 @@ import com.alfayedoficial.kotlinutils.kuChangeBackgroundTint
 import com.alfayedoficial.kotlinutils.kuHide
 import com.alfayedoficial.kotlinutils.kuShow
 import com.udacity.project4.R
-import com.udacity.project4.domain.entity.ReminderEntity
-import com.udacity.project4.ui.reminderDescription.view.ReminderDescriptionActivity
+import com.udacity.project4.locationreminders.entity.ReminderDataItem
+import com.udacity.project4.locationreminders.reminderDescription.view.ReminderDescriptionActivity
 import com.udacity.project4.utils.AppConstant.EXTRA_ReminderDataItem
 import com.google.android.material.button.MaterialButton
 
@@ -49,9 +49,9 @@ fun MaterialButton.setSaveEnable(bool: MutableLiveData<Boolean>) {
 }
 
 
-fun newIntent(context: Context, reminderEntity: ReminderEntity): Intent {
+fun newIntent(context: Context, reminderDataItem: ReminderDataItem): Intent {
     val intent = Intent(context, ReminderDescriptionActivity::class.java)
-    intent.putExtra(EXTRA_ReminderDataItem, reminderEntity)
+    intent.putExtra(EXTRA_ReminderDataItem, reminderDataItem)
     return intent
 }
 

@@ -7,24 +7,24 @@
 
     <fragment
         android:id="@+id/DashboardRemindsFragment"
-        android:name="com.udacity.project4.ui.home.features.dashboardReminds.view.DashboardRemindsFragment"
+        android:name="com.udacity.project4.locationreminders.features.reminderList.view.ReminderListFragment"
         android:label="@string/app_name"
-        tools:layout="@layout/fragment_dashboard_reminds">
+        tools:layout="@layout/fragment_reminders">
         <action
             android:id="@+id/action_DashboardRemindsFragment_to_saveRemindFragment"
             app:destination="@id/saveRemindFragment" />
     </fragment>
     <fragment
         android:id="@+id/PickAddress"
-        android:name="com.udacity.project4.ui.home.features.pickAddress.view.PickAddressFragment"
+        android:name="com.udacity.project4.locationreminders.features.pickAddress.view.SelectLocationFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_pick_address">
+        tools:layout="@layout/fragment_select_location">
 
     </fragment>
     <fragment
         android:id="@+id/saveRemindFragment"
-        tools:layout="@layout/fragment_save_remind"
-        android:name="com.udacity.project4.ui.home.features.saveRemind.view.SaveRemindFragment"
+        tools:layout="@layout/fragment_save_reminder"
+        android:name="com.udacity.project4.locationreminders.features.saveRemind.view.SaveReminderFragment"
         android:label="Add new remind" >
         <action
             android:id="@+id/action_saveRemindFragment_to_PickAddress"

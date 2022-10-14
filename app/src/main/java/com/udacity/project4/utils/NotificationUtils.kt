@@ -8,12 +8,12 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.udacity.project4.R
-import com.udacity.project4.domain.entity.ReminderEntity
-import com.udacity.project4.ui.reminderDescription.view.ReminderDescriptionActivity
+import com.udacity.project4.locationreminders.entity.ReminderDataItem
+import com.udacity.project4.locationreminders.reminderDescription.view.ReminderDescriptionActivity
 import com.udacity.project4.utils.AppConstant.NOTIFICATION_CHANNEL_ID
 
 
-fun sendNotificationUtils(context: Context, reminderDataItem: ReminderEntity) {
+fun sendNotificationUtils(context: Context, reminderDataItem: ReminderDataItem) {
     val notificationManager = context
         .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -37,7 +37,7 @@ fun sendNotificationUtils(context: Context, reminderDataItem: ReminderEntity) {
     val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(R.mipmap.ic_launcher)
         .setContentTitle(reminderDataItem.title)
-        .setContentText(reminderDataItem.address)
+        .setContentText(reminderDataItem.location)
         .setContentIntent(notificationPendingIntent)
         .setAutoCancel(true)
         .build()

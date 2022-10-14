@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.udacity.project4.data.dto.ReminderDTO" />
+            type="com.udacity.project4.locationreminders.data.dto.ReminderDTO" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -56,8 +56,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@{model.address}"
-                    android:text="@{model.address}"
+                    android:contentDescription="@{model.location}"
+                    android:text="@{model.location}"
                     android:textColor="@color/purple_500"
                     android:layout_marginTop="@dimen/_2sdp"
                     tools:text="TEXT TEST" />

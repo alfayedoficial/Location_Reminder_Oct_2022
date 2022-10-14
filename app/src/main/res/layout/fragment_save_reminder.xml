@@ -6,24 +6,24 @@
     <data>
 
         <variable
-            name="model"
-            type="com.udacity.project4.locationreminders.entity.ReminderDataItem" />
+            name="fragment"
+            type="com.udacity.project4.locationreminders.features.saveRemind.view.SaveReminderFragment" />
+
+
+        <variable
+            name="viewModel"
+            type="com.udacity.project4.locationreminders.features.saveRemind.viewModel.SaveReminderViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".locationreminders.reminderDescription.view.ReminderDescriptionActivity">
+        android:padding="@dimen/_10sdp"
+        tools:context=".locationreminders.features.saveRemind.view.SaveReminderFragment">
 
         <ScrollView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/_7sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +43,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/remindTitleContainer"
                     style="@style/TextInputLayout"
-                    android:hint="@string/title">
+                    android:hint="@string/write_title">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/remindTitleEt"
@@ -52,12 +52,9 @@
                         android:autofillHints="none"
                         android:imeOptions="actionNext"
                         android:inputType="text"
-                        android:maxLength="70"
+                        android:text="@={viewModel.title}"
                         android:singleLine="true"
-                        android:enabled="false"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:text="@={model.title}"
+                        android:maxLength="70"
                         android:textAlignment="viewStart"
                         android:textColor="@color/purple_500"
                         android:textSize="16sp"
@@ -67,7 +64,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/remindDescriptionContainer"
                     style="@style/TextInputLayout"
-                    android:hint="@string/description">
+                    android:hint="@string/write_description">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/remindDescriptionEt"
@@ -77,26 +74,25 @@
                         android:imeOptions="actionNext"
                         android:inputType="textMultiLine"
                         android:lines="6"
-                        android:enabled="false"
-                        android:focusable="false"
-                        android:clickable="false"
                         android:maxLength="1000"
+                        android:text="@={viewModel.description}"
                         android:overScrollMode="always"
                         android:scrollbarSize="@dimen/_2sdp"
                         android:scrollbarStyle="insideInset"
                         android:scrollbars="vertical"
                         android:scrollHorizontally="true"
-                        android:text="@={model.description}"
                         android:textAlignment="viewStart"
                         android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
+                    android:id="@+id/cardViewAddress"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_7sdp"
                     android:layout_marginTop="@dimen/_6sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
+                    android:onClick="@{() -> fragment.onPickLocationClick()}"
                     app:strokeColor="@color/gray"
                     app:strokeWidth="1dp">
 
@@ -114,28 +110,63 @@
                             android:clickable="false"
                             android:drawablePadding="@dimen/_5sdp"
                             android:focusable="false"
-                            android:text="@{model.location}"
+                            android:text="@string/pick_remind_location"
                             android:textColor="@color/purple_500"
                             app:drawableStartCompat="@drawable/ic_baseline_location_on_24" />
+
+                        <TextView
+                            android:id="@+id/tvRemindAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:singleLine="true"
+                            android:textColor="@color/purple_500"
+                            android:visibility="gone"
+                            app:address="@{viewModel.address}"
+                            tools:text="Selected Address"
+                            tools:visibility="visible" />
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
 
-
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/map"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSaveRemind"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    app:layout_constraintBottom_toTopOf="@+id/materialButton"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_9sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:backgroundTint="@color/gray"
+                    android:insetTop="0sp"
+                    android:insetBottom="0dp"
+                    android:onClick="@{() -> fragment.onSaveRemindClick()}"
+                    android:enabled="false"
+                    android:text="@string/save_remind"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
+
             </LinearLayout>
 
-
         </ScrollView>
+
+        <include
+            android:id="@+id/lyContainerIsLoading"
+            layout="@layout/ly_container_is_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

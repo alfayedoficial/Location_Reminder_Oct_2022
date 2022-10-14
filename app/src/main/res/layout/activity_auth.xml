@@ -6,13 +6,13 @@
     <data>
         <variable
             name="activity"
-            type="com.udacity.project4.ui.auth.view.AuthActivity" />
+            type="com.udacity.project4.authentication.view.AuthenticationActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.auth.view.AuthActivity">
+        tools:context=".authentication.view.AuthenticationActivity">
 
         <ImageView
             android:id="@+id/imageView2"
