@@ -12,6 +12,7 @@ import com.udacity.project4.locationreminders.features.saveRemind.viewModel.Save
 import com.udacity.project4.locationreminders.features.reminderList.viewModel.RemindersListViewModel
 import com.udacity.project4.utils.AppPreferences.initAppPreferences
 import com.google.firebase.FirebaseApp
+import com.udacity.project4.authentication.view.LoginViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -45,6 +46,10 @@ class MyApp : MultiDexApplication()  , KoinComponent{
             viewModel { RemindersListViewModel(dataSourceReminder = get() ) }
         }
 
+        val viewModelModule3 = module {
+            viewModel { LoginViewModel() }
+        }
+
         val repositoryModel: Module = module {
             single<ReminderDataSource> { RemindersLocalRepository(appDatabase = get()) }
         }
@@ -59,7 +64,7 @@ class MyApp : MultiDexApplication()  , KoinComponent{
 
         startKoin{
             androidContext(this@MyApp)
-            modules(listOf(repositoryModel , databaseModel , viewModelModule , viewModelModule2))
+            modules(listOf(repositoryModel , databaseModel , viewModelModule , viewModelModule2 , viewModelModule3))
         }
 
     }

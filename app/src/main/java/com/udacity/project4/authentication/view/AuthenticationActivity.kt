@@ -16,13 +16,14 @@ import com.udacity.project4.utils.AppConstant.USER
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import org.koin.android.ext.android.inject
 
 class AuthenticationActivity : AppCompatActivity() {
 
     private var _binding: ActivityAuthBinding? = null
     private val dataBinder get() = _binding!!
 
-    private val mViewModel by viewModels<LoginViewModel>()
+    private val mViewModel :LoginViewModel by inject()
 
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) { res ->
         this.onSignInResult(res)
